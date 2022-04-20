@@ -19,6 +19,7 @@ from nornir.core.inventory import (
 )
 from ruamel.yaml.composer import ComposerError
 from ruamel.yaml.scanner import ScannerError
+import pprint
 
 VARS_FILENAME_EXTENSIONS = ["", ".ini", ".yml", ".yaml"]
 RESERVED_FIELDS = ("hostname", "port", "username", "password", "platform", "connection_options")
@@ -208,6 +209,8 @@ class AnsibleParser:
                 host_or_group[k] = v
             else:
                 host_or_group["data"][k] = v
+        print(f'data: {type(data)}, {data}')
+        print(f'vars_data: {vars_data}')
         self.map_nornir_vars(vars_data)
         for k, v in vars_data.items():
             if k in RESERVED_FIELDS:
@@ -432,6 +435,7 @@ def parse(hostsfile: str) -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any
             raise NornirNoValidInventoryError(
                 f"AnsibleInventory: no valid inventory source(s) to parse. Tried: {hostsfile}"
             ) from exc
+    print(f'Parser Type: {type(parser)}')
     parser.parse()
     return parser.hosts, parser.groups, parser.defaults
 
