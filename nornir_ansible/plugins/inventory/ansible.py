@@ -291,6 +291,10 @@ class AnsibleParser:
             "ansible_password": "password",
         }
         for ansible_var, nornir_var in mappings.items():
+            print(f'obj: {obj}')
+            print(f'ansible_var: {ansible_var}')
+            print(f'nornir_var: {nornir_var}')
+
             if ansible_var in obj:
                 obj[nornir_var] = obj.pop(ansible_var)
 
